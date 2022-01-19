@@ -474,8 +474,7 @@ namespace MAJOUL_Mohamed_TP3_ST2TRD
             var vowels = new HashSet<char> { 'a', 'e', 'i', 'o', 'u', 'y' };
             Console.WriteLine("Display the average running time of movies having a vowel as the first letter: {0}", Movies.Where(x => vowels.Contains(x.Title.ToLower()[0])).Select(x => x.RunningTime).Average());
             Console.WriteLine("Print all movies with the letter H or W in the title, but not the letter I or T: {0}", string.Join(", ", Movies.Select(x => x.Title).Where(x => (x.ToLower().Contains('h') || x.ToLower().Contains('w')) && x.ToLower().Contains('i') == false && x.ToLower().Contains('t') == false)));
-            Console.WriteLine("Calculate the mean of all Budget of every movie ever: {0}", Movies.Select(x => x.Budget).Average());
-            Console.WriteLine("Calculate the mean of all Box Office of every movie ever: {0}", Movies.Select(x => x.BoxOffice).Average());
+            Console.WriteLine("Calculate the mean of all Budget / Box Office of every movie ever: {0}", Movies.Where(x => x.BoxOffice != null).Select(x => x.Budget / x.BoxOffice).Average());
             Console.WriteLine("Group all films by the number of characters in the title screen and print the count of movies by letter in the film: ");
             count = 0;
             for (int i = 1; i < 100; i++)
@@ -493,15 +492,10 @@ namespace MAJOUL_Mohamed_TP3_ST2TRD
                     count = 0;
                 }
             }
-            Console.WriteLine("Calculate the mean of all Budget of every movie grouped by yearly release date: ", string.Join(", ", Movies.Select(x => x.ReleaseDate.Year).Average()));
+            Console.WriteLine("Calculate the mean of all Budget / Box Office of every movie grouped by yearly release date: ", string.Join(", ", Movies.Select(x => x.ReleaseDate.Year).Average()));
             for (int year = 1937; year < 2022; year++)
             {
-                    Console.WriteLine(year + "=> $" + Movies.Where(x => x.ReleaseDate.Year == year).Select(x => x.Budget).Average());
-            }
-            Console.WriteLine("Calculate the mean of all Box Office of every movie grouped by yearly release date: ", string.Join(", ", Movies.Select(x => x.ReleaseDate.Year).Average()));
-            for (int year = 1937; year < 2022; year++)
-            {
-                Console.WriteLine(year + "=> $" + Movies.Where(x => x.ReleaseDate.Year == year).Select(x => x.BoxOffice).Average());
+                    Console.WriteLine(year + "=> $" + Movies.Where(x => x.ReleaseDate.Year == year && x.BoxOffice != null).Select(x => x.Budget / x.BoxOffice).Average());
             }
         }
         
